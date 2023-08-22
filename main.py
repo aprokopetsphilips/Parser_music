@@ -14,7 +14,7 @@ unique = set()
 options = Options()
 options.add_argument(f'User-agent={user_agent}')
 
-# получаем все блоки с классом 'media-body' и текст из него.Попутно использую Try т.к.
+# получаем все блоки с классом 'media-body' и текст из него.Попутно использую Try для стабильности программы
 with webdriver.Chrome(options=options) as browser:
     while page < 1:
         try:
@@ -24,13 +24,12 @@ with webdriver.Chrome(options=options) as browser:
                 alert = browser.switch_to.alert
                 alert.dismiss()
             for x in browser.find_elements(By.CLASS_NAME,"media-body"):
-                # print(x.text.split(' ')[-2])# get load size
                 try:
                     elem = x.find_element(By.CLASS_NAME, 'package-title').find_element(By.TAG_NAME,'a').get_attribute('href')
+                    # получаю размер файла и фильтрую по нему
                     size_elem = x.text.split(' ')[-2]
                     if float(size_elem) >800:
                         all_link.append(elem)
-
                 except Exception as b:
                     # print(b)
                     pass
@@ -38,8 +37,7 @@ with webdriver.Chrome(options=options) as browser:
         except Exception as e:
             # print(e)
             pass
-    print(all_link)
-
+    # прохожу по ссылкам полученым и скачиваю файлы
     for link in all_link:
         if link not in unique:
             unique.add(link)
