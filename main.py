@@ -16,7 +16,7 @@ options.add_argument(f'User-agent={user_agent}')
 
 # получаем все блоки с классом 'media-body' и текст из него.Попутно использую Try для стабильности программы
 with webdriver.Chrome(options=options) as browser:
-    while page < 1:
+    while page < 199:
         try:
             browser.get(f'https://www.allsamsungringtones.com/?cp_443={page}')
             WebDriverWait(browser, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'media-body')))
